@@ -59,10 +59,10 @@ func (a *App) Run(arguments []string) error {
 	if a.Command(helpCommand.Name) == nil {
 		a.Commands = append(a.Commands, helpCommand)
 	}
-
-	//append version/help flags
-	a.appendFlag(BoolFlag{"version, v", "print the version"})
-	a.appendFlag(BoolFlag{"help, h", "show help"})
+	// append version to commands
+	if a.Command(versionCommand.Name) == nil {
+		a.Commands = append(a.Commands, versionCommand)
+	}
 
 	// parse flags
 	set := flagSet(a.Name, a.Flags)
@@ -83,14 +83,6 @@ func (a *App) Run(arguments []string) error {
 		ShowAppHelp(context)
 		fmt.Println("")
 		return err
-	}
-
-	if checkHelp(context) {
-		return nil
-	}
-
-	if checkVersion(context) {
-		return nil
 	}
 
 	args := context.Args()

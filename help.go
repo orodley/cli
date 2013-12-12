@@ -75,6 +75,13 @@ func ShowCommandHelp(c *Context, command string) {
 	fmt.Printf("No help topic for '%v'\n", command)
 }
 
+var versionCommand = Command{
+	Name:      "version",
+	ShortName: "v",
+	Usage:     "Prints the installed version of the program",
+	Action:    ShowVersion,
+}
+
 // Prints the version number of the App
 func ShowVersion(c *Context) {
 	fmt.Printf("%v version %v\n", c.App.Name, c.App.Version)
@@ -88,24 +95,6 @@ func printHelp(templ string, data interface{}) {
 		panic(err)
 	}
 	w.Flush()
-}
-
-func checkVersion(c *Context) bool {
-	if c.GlobalBool("version") {
-		ShowVersion(c)
-		return true
-	}
-
-	return false
-}
-
-func checkHelp(c *Context) bool {
-	if c.GlobalBool("h") || c.GlobalBool("help") {
-		ShowAppHelp(c)
-		return true
-	}
-
-	return false
 }
 
 func checkCommandHelp(c *Context, name string) bool {
